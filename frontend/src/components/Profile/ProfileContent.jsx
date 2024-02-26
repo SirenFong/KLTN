@@ -136,6 +136,13 @@ const ProfileContent = ({ active }) => {
           <AllRefundOrders />
         </div>
       )}
+
+      {/* Theo dõi đơn hàng */}
+      {active === 4 && (
+        <div>
+          <TrackOrder />
+        </div>
+      )}
     </div>
   );
 };
@@ -319,4 +326,94 @@ const AllRefundOrders = () => {
   );
 };
 
+//
+//
+
+const TrackOrder = () => {
+  const orders = [
+    {
+      _id: "8374781vhdjjajwh83372",
+      orderItems: [
+        {
+          name: "Thuốc trợ tim",
+        },
+      ],
+      totalPrice: 300000,
+      orderStatus: "Đang kiểm hàng",
+    },
+  ];
+  const columns = [
+    { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
+
+    {
+      field: "status",
+      headerName: "Trạng thái",
+      minWidth: 130,
+      flex: 0.7,
+      cellClassName: (params) => {
+        return params.getValue(params.id, "status") === "Đã giao hàng"
+          ? "greenColor"
+          : "redColor";
+      },
+    },
+    {
+      field: "itemsQty",
+      headerName: "Số lượng",
+      type: "number",
+      minWidth: 130,
+      flex: 0.7,
+    },
+
+    {
+      field: "total",
+      headerName: "Tổng tiền",
+      type: "number",
+      minWidth: 130,
+      flex: 0.8,
+    },
+
+    {
+      field: " ",
+      flex: 1,
+      minWidth: 150,
+      headerName: "",
+      type: "number",
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={`/order/${params.id}`}>
+              <Button>
+                <AiOutlineArrowRight size={20} />
+              </Button>
+            </Link>
+          </>
+        );
+      },
+    },
+  ];
+
+  const row = [];
+
+  orders &&
+    orders.forEach((item) => {
+      row.push({
+        id: item._id,
+        itemsQty: item.orderItems.length,
+        total: item.totalPrice + "VNĐ",
+        status: item.orderStatus,
+      });
+    });
+  return (
+    <div className="pl-8 pt-1">
+      <DataGrid
+        rows={row}
+        columns={columns}
+        pageSize={10}
+        disableSelectionOnClick
+        autoHeight
+      />
+    </div>
+  );
+};
 export default ProfileContent;
