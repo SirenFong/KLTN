@@ -7,7 +7,6 @@ import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@material-ui/data-grid";
 import { Button } from "@material-ui/core";
-import { MdTrackChanges } from "react-icons/md";
 
 const ProfileContent = ({ active }) => {
   //Tạo biến user để lấy thông tin người dùng khi đăng ký
@@ -385,7 +384,7 @@ const TrackOrder = () => {
           <>
             <Link to={`/order/${params.id}`}>
               <Button>
-                <MdTrackChanges size={20} />
+                <AiOutlineArrowRight size={20} />
               </Button>
             </Link>
           </>
@@ -417,5 +416,4 @@ const TrackOrder = () => {
     </div>
   );
 };
-
 export default ProfileContent;
