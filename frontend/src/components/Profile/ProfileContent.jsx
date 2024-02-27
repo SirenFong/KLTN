@@ -51,7 +51,7 @@ const ProfileContent = ({ active }) => {
           <div className="w-full px-5">
             <form onSubmit={handleSubmit} aria-required={true}>
               <div className="w-full flex pb-3">
-                <div className="w-[50%]">
+                <div className="w-[100%] 800px:w-[50%]">
                   <label className="block pb-2">Họ và tên</label>
                   <input
                     type="text"
@@ -61,7 +61,7 @@ const ProfileContent = ({ active }) => {
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-                <div className="w-[50%]">
+                <div className="w-[100%] 800px:w-[50%]">
                   <label className="block pb-2">Địa chỉ E-mail</label>
                   <input
                     type="text"
@@ -74,7 +74,7 @@ const ProfileContent = ({ active }) => {
               </div>
 
               <div className="w-full flex pb-3">
-                <div className="w-[50%]">
+                <div className="w-[100%] 800px:w-[50%]">
                   <label className="block pb-2">Số điện thoại</label>
                   <input
                     type="text"
@@ -84,7 +84,7 @@ const ProfileContent = ({ active }) => {
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </div>
-                <div className="w-[50%]">
+                <div className="w-[100%] 800px:w-[50%]">
                   <label className="block pb-2">Zipcode</label>
                   <input
                     type="text"
@@ -96,7 +96,7 @@ const ProfileContent = ({ active }) => {
               </div>
 
               <div className="w-full flex pb-3">
-                <div className="w-[50%]">
+                <div className="w-[100%] 800px:w-[50%]">
                   <label className="block pb-2">Địa chỉ</label>
                   <input
                     type="text"
@@ -106,7 +106,7 @@ const ProfileContent = ({ active }) => {
                     onChange={(e) => setAddress1(e.target.value)}
                   />
                 </div>
-                <div className="w-[50%]">
+                <div className="w-[100%] 800px:w-[50%]">
                   <label className="block pb-2">Thêm ghi chú</label>
                   <input
                     type="text"

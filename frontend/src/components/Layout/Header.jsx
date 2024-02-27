@@ -29,6 +29,7 @@ const Header = ({ activeHeading }) => {
   const [active, setActive] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [openWishlist, setOpenWishlist] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   console.log(user);
 
@@ -128,7 +129,7 @@ const Header = ({ activeHeading }) => {
           </div>
 
           <div className={`${styles.button}`}>
-            <Link to="/seller">
+            <Link to="/shop-create">
               <h1 className="text-[#fff] flex items-center">
                 Kênh người bán <IoIosArrowForward className="ml-1" />
               </h1>
