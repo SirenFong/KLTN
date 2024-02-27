@@ -2,7 +2,11 @@
 import React, { useState } from "react";
 import { backend_url } from "../../server";
 import { useSelector } from "react-redux";
-import { AiOutlineArrowRight, AiOutlineCamera } from "react-icons/ai";
+import {
+  AiOutlineArrowRight,
+  AiOutlineCamera,
+  AiOutlineDelete,
+} from "react-icons/ai";
 import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@material-ui/data-grid";
@@ -144,10 +148,25 @@ const ProfileContent = ({ active }) => {
           <TrackOrder />
         </div>
       )}
+
+      {/* Theo dõi đơn hàng */}
+      {active === 6 && (
+        <div>
+          <PaymentMethod />
+        </div>
+      )}
+
+      {/* Địa chỉ đã lưu */}
+      {active === 7 && (
+        <div>
+          <Address />
+        </div>
+      )}
     </div>
   );
 };
 
+//Lấy toàn bộ hóa đơn
 const AllOrder = () => {
   const orders = [
     {
@@ -239,6 +258,7 @@ const AllOrder = () => {
 //
 //
 
+//Lấy toàn bộ đơn trả hàng
 const AllRefundOrders = () => {
   const orders = [
     {
@@ -330,6 +350,7 @@ const AllRefundOrders = () => {
 //
 //
 
+//Lấy toàn bộ tình trạng đơn đang đặt
 const TrackOrder = () => {
   const orders = [
     {
@@ -417,4 +438,75 @@ const TrackOrder = () => {
     </div>
   );
 };
+
+//
+//
+
+//Lấy toàn bộ hình thức thanh toán
+const PaymentMethod = () => {
+  return (
+    <div className="w-full px-5">
+      <div className="flex w-full items-center justify-between">
+        <h1 className="text-[25px] font-[600] text-[#000000ba] pb-2">
+          Phương thức:
+        </h1>
+        <div className={`${styles.button} rounded-md`}>
+          <span className="text-[#fff]">Thêm mới</span>
+        </div>
+      </div>
+      <br />
+      <div className="w-full bg-white h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10">
+        <div className="flex items-center">
+          <img
+            src="https://bonik-react.vercel.app/assets/images/payment-methods/Visa.svg"
+            alt=""
+          />
+          <h5 className="pl-5 font-[600]">TRAN THAI THANH</h5>
+        </div>
+        <div className="pl-8 flex items-center">
+          <h6 className="font-[400]">**** **** **** 8029</h6>
+          <h5 className="pl-6 font-[400]">05/2025</h5>
+        </div>
+        <div className="min-w-[10%] flex items-center justify-between pl-8">
+          <AiOutlineDelete size={25} className="cursor-pointer" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+//
+//
+
+//Lấy toàn bộ hình thức thanh toán
+const Address = () => {
+  return (
+    <div className="w-full px-5">
+      <div className="flex w-full items-center justify-between">
+        <h1 className="text-[25px] font-[600] text-[#000000ba] pb-2">
+          Địa chỉ đã lưu
+        </h1>
+        <div className={`${styles.button} rounded-md`}>
+          <span className="text-[#fff]">Thêm mới</span>
+        </div>
+      </div>
+      <br />
+      <div className="w-full bg-white h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10">
+        <div className="flex items-center">
+          <h5 className="pl-5 font-[600]">Mặc định</h5>
+        </div>
+        <div className="pl-8 flex items-center">
+          <h6 className="font-[400]">81/15 Phùng Văn Cung, P2, Q.Phú Nhuận</h6>
+        </div>
+        <div className="pl-8 flex items-center">
+          <h6 className="font-[400]">+84 707849427</h6>
+        </div>
+        <div className="min-w-[10%] flex items-center justify-between pl-8">
+          <AiOutlineDelete size={25} className="cursor-pointer" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default ProfileContent;
