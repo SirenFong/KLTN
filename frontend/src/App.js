@@ -44,7 +44,7 @@ const App = () => {
             <Route path="/best-selling" element={<BestSellingPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/faq" element={<FAQPage />} />
-            <Route path="/shop-create" element={<ShopCreatePage />} />
+            <Route path="/doctor-create" element={<ShopCreatePage />} />
             {/**Bọc ProfilePage bên trong ProtectedRout để kiểm tra đăng nhập */}
             <Route
               path="/profile"
