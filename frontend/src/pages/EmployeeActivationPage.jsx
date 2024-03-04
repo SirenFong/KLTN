@@ -22,7 +22,7 @@ const EmployeeActivationPage = () => {
       };
       activationEmail();
     }
-  }, [activation_token]);
+  }, []);
 
   return (
     <div
@@ -32,7 +32,7 @@ const EmployeeActivationPage = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: error ? "#6bb2c2" : "#6bb2c2", // Change color codes as per your preference
+        backgroundColor: error ? "#6bb2c2" : "#6bb2c2",
       }}
     >
       {error ? (

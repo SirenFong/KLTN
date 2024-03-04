@@ -12,7 +12,7 @@ import {
   EventsPage,
   FAQPage,
   ProfilePage,
-  ShopCreatePage,
+  DoctorCreatePage,
   EmployeeActivationPage,
 } from "./Routes.js";
 import { ToastContainer } from "react-toastify";
@@ -49,7 +49,7 @@ const App = () => {
             <Route path="/best-selling" element={<BestSellingPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/faq" element={<FAQPage />} />
-            <Route path="/doctor-create" element={<ShopCreatePage />} />
+            <Route path="/doctor-create" element={<DoctorCreatePage />} />
             {/**Bọc ProfilePage bên trong ProtectedRout để kiểm tra đăng nhập */}
             <Route
               path="/profile"

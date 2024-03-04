@@ -22,7 +22,7 @@ const ActivationPage = () => {
       };
       activationEmail();
     }
-  }, [activation_token]);
+  }, []);
 
   return (
     <div
@@ -32,10 +32,14 @@ const ActivationPage = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: error ? "#6bb2c2" : "#6bb2c2", // Change color codes as per your preference
+        backgroundColor: error ? "#6bb2c2" : "#6bb2c2",
       }}
     >
-      {error ? <p>Link đã hết hạn</p> : <p>Tài khoản đã được kích hoạt thành công!</p>}
+      {error ? (
+        <p>Link đã hết hạn</p>
+      ) : (
+        <p>Tài khoản đã được kích hoạt thành công!</p>
+      )}
     </div>
   );
 };
