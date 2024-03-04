@@ -25,24 +25,30 @@ const ShopCreate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-    await axios
-      .post(
-        `${server}/user/login-user`,
-        {
-          email,
-          password,
-        },
-        { withCredentials: true }
-      )
+    const newForm = new FormData();
+
+    newForm.append("file", avatar);
+    newForm.append("name", name);
+    newForm.append("phoneNumber", phoneNumber);
+    newForm.append("address", address);
+    newForm.append("email", email);
+    newForm.append("password", password);
+
+    axios
+      .post(`${server}/employee/doctor-create`, newForm, config)
       .then((res) => {
-        toast.success("Đăng nhập thành công!");
-        navigate("/");
-        window.location.reload(true);
+        toast.success(res.data.message);
+        setName("");
+        setPhoneNumber();
+        setAddress("");
+        setEmail("");
+        setPassword("");
+        setAvatar();
       })
-      .catch((err) => {
-        toast.error(err.response.data.message);
-        // console.log(err);
+      .catch((error) => {
+        toast.error(error.response.data.message);
       });
   };
 

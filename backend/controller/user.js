@@ -60,14 +60,14 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
   }
 });
 
-// Tạo token kích hoạt
+// Tạo token kích hoạt tối đa 3 phút
 const createActivationToken = (user) => {
   return jwt.sign(user, process.env.ACTIVATION_SECRET, {
     expiresIn: "3m",
   });
 };
 
-//activate user
+
 // router.post(
 //   "/activation",
 //   catchAsyncErrors(async (req, res, next) => {
@@ -103,6 +103,8 @@ const createActivationToken = (user) => {
 //   })
 // );
 
+
+//activate user
 router.post(
   "/activation",
   catchAsyncErrors(async (req, res, next) => {
