@@ -68,6 +68,41 @@ const createActivationToken = (user) => {
 };
 
 //activate user
+// router.post(
+//   "/activation",
+//   catchAsyncErrors(async (req, res, next) => {
+//     try {
+//       const { activation_token } = req.body;
+//       const newUser = jwt.verify(
+//         activation_token,
+//         process.env.ACTIVATION_SECRET
+//       );
+
+//       if (!newUser) {
+//         return next(new ErrorHandler("Invalid token", 400));
+//       }
+//       const { name, email, password, avatar } = newUser;
+
+//       let user = await User.findOne({ email });
+
+//       if (user) {
+//         return next(new ErrorHandler("Tài khoản đã tồn tại", 400));
+//       }
+
+//       user = await User.create({
+//         name,
+//         email,
+//         password,
+//         avatar,
+//       });
+
+//       sendToken(user, 201, res);
+//     } catch (error) {
+//       return next(new ErrorHandler(error.message, 500));
+//     }
+//   })
+// );
+
 router.post(
   "/activation",
   catchAsyncErrors(async (req, res, next) => {
@@ -86,15 +121,19 @@ router.post(
       let user = await User.findOne({ email });
 
       if (user) {
-        return next(new ErrorHandler("Tài khoản đã tồn tại", 400));
+        // Nếu người dùng đã tồn tại, có thể cập nhật thông tin của họ nếu cần thiết
+        user.name = name;
+        user.password = password;
+        user.avatar = avatar;
+      } else {
+        // Nếu người dùng chưa tồn tại, tạo mới người dùng
+        user = await User.create({
+          name,
+          email,
+          password,
+          avatar,
+        });
       }
-
-      user = await User.create({
-        name,
-        email,
-        password,
-        avatar,
-      });
 
       sendToken(user, 201, res);
     } catch (error) {
