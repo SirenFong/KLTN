@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
 import {
   LoginPage,
   SignupPage,
@@ -22,17 +28,24 @@ import { loadDoctor, loadUser } from "./redux/actions/user.js";
 import Store from "./redux/store.js";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
+import { DoctorHomePage } from "./DoctorRoutes.js";
+import DoctorProtectedRoute from "./DoctorProtectedRoute.js";
 
 const App = () => {
   const { loading, isAuthenticated } = useSelector((state) => state.user);
+  const { isLoading, isDoctor, doctor } = useSelector((state) => state.doctor);
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadDoctor());
-  }, []);
 
+    if (isDoctor === true) {
+      return <Navigate to="/doctor" replace />;
+    }
+  }, []);
+  // console.log(isDoctor, doctor);
   return (
     <>
-      {loading ? null : (
+      {loading || isLoading ? null : (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -51,8 +64,18 @@ const App = () => {
             <Route path="/best-selling" element={<BestSellingPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/faq" element={<FAQPage />} />
+
+            {/** Shop */}
             <Route path="/doctor-create" element={<DoctorCreatePage />} />
             <Route path="/doctor-login" element={<DoctorLoginPage />} />
+            <Route
+              path="/employee/:id"
+              element={
+                <DoctorProtectedRoute isDoctor={isDoctor}>
+                  <DoctorHomePage />
+                </DoctorProtectedRoute>
+              }
+            />
             {/**Bọc ProfilePage bên trong ProtectedRout để kiểm tra đăng nhập */}
             <Route
               path="/profile"

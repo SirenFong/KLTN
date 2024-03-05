@@ -33,7 +33,7 @@ export const loadDoctor = () => async (dispatch) => {
     });
     dispatch({
       type: "LoadDoctorSuccess",
-      payload: data.user,
+      payload: data.doctor,
     });
   } catch (error) {
     dispatch({

@@ -5,6 +5,7 @@ const User = require("../model/user");
 const Employee = require("../model/employee");
 // const Shop = require("../model/shop");
 
+//Người dùng
 exports.isAuthenticated = catchAsyncErrors(async (req, res, next) => {
   const { token } = req.cookies;
 
@@ -19,9 +20,7 @@ exports.isAuthenticated = catchAsyncErrors(async (req, res, next) => {
   next();
 });
 
-{
-  /**Tạm đóng */
-}
+//bác sĩ
 exports.isDoctor = catchAsyncErrors(async (req, res, next) => {
   const { doctor_token } = req.cookies;
   if (!doctor_token) {

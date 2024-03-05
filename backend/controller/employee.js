@@ -5,7 +5,7 @@ const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
 // const sendToken = require("../utils/jwtToken");
-const { isAuthenticated } = require("../middleware/auth");
+const { isAuthenticated, isDoctor } = require("../middleware/auth");
 const Employee = require("../model/employee");
 const ErrorHandler = require("../utils/ErrorHandler");
 const { upload } = require("../multer");
@@ -148,17 +148,18 @@ router.post(
 //load user
 router.get(
   "/getDoctor",
+  isDoctor,
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const user = await Employee.findById(req.user.id);
+      const doctor = await Employee.findById(req.doctor.id);
 
-      if (!user) {
+      if (!doctor) {
         return next(new ErrorHandler("Người dùng không tồn tại", 400));
       }
 
       res.status(200).json({
         success: true,
-        user,
+        doctor,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));

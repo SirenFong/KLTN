@@ -1,23 +1,23 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
-  isAuthenticated: false,
+  isDoctor: false,
 };
 
 export const doctorReducer = createReducer(initialState, (builder) => {
   builder
     .addCase("LoadDoctorRequest", (state) => {
-      state.loading = true;
+      state.isLoading = true;
     })
     .addCase("LoadDoctorSuccess", (state, action) => {
-      state.isAuthenticated = true;
-      state.loading = false;
+      state.isDoctor = true;
+      state.isLoading = false;
       state.Doctor = action.payload;
     })
     .addCase("LoadDoctorFail", (state, action) => {
-      state.loading = false;
+      state.isLoading = false;
       state.error = action.payload;
-      state.isAuthenticated = false;
+      state.isDoctor = false;
     })
     .addCase("clearErrors", (state) => {
       state.error = null;
