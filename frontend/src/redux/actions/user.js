@@ -21,3 +21,24 @@ export const loadUser = () => async (dispatch) => {
     });
   }
 };
+
+//load doctor
+export const loadDoctor = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: "LoadDoctorRequest",
+    });
+    const { data } = await axios.get(`${server}/employee/getDoctor`, {
+      withCredentials: true,
+    });
+    dispatch({
+      type: "LoadDoctorSuccess",
+      payload: data.user,
+    });
+  } catch (error) {
+    dispatch({
+      type: "LoadDoctorFail",
+      payload: error.response.data.message,
+    });
+  }
+};

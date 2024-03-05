@@ -10,6 +10,7 @@ import FAQPage from "../src/pages/FAQPage";
 import ProfilePage from "../src/pages/ProfilePage";
 import DoctorCreatePage from "../src/pages/DoctorCreatePage";
 import EmployeeActivationPage from "../src/pages/EmployeeActivationPage";
+import DoctorLoginPage from "../src/pages/DoctorLoginPage";
 export {
   LoginPage,
   SignupPage,
@@ -22,5 +23,6 @@ export {
   FAQPage,
   ProfilePage,
   DoctorCreatePage,
+  DoctorLoginPage,
   EmployeeActivationPage,
 };

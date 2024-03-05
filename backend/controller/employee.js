@@ -4,12 +4,13 @@ const router = express.Router();
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
-const sendToken = require("../utils/jwtToken");
+// const sendToken = require("../utils/jwtToken");
 const { isAuthenticated } = require("../middleware/auth");
 const Employee = require("../model/employee");
 const ErrorHandler = require("../utils/ErrorHandler");
 const { upload } = require("../multer");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const sendDoctorToken = require("../utils/doctorToken");
 
 router.post("/doctor-create", upload.single("file"), async (req, res, next) => {
   try {
@@ -106,7 +107,59 @@ router.post(
         });
       }
 
-      sendToken(doctor, 201, res);
+      sendDoctorToken(doctor, 201, res);
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
+//login doctor
+router.post(
+  "/login-doctor",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const { email, password } = req.body;
+
+      if (!email || !password) {
+        return next(new ErrorHandler("Vui lòng nhập đầy đủ thông tin!", 400));
+      }
+
+      //Kiểm tra email và password
+      const user = await Employee.findOne({ email }).select("+password");
+
+      if (!user) {
+        return next(new ErrorHandler("Người dùng không tồn tại", 400));
+      }
+
+      const isPasswordValid = await user.comparePassword(password);
+
+      if (!isPasswordValid) {
+        return next(new ErrorHandler("Sai mật khẩu", 400));
+      }
+
+      sendDoctorToken(user, 201, res);
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
+//load user
+router.get(
+  "/getDoctor",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const user = await Employee.findById(req.user.id);
+
+      if (!user) {
+        return next(new ErrorHandler("Người dùng không tồn tại", 400));
+      }
+
+      res.status(200).json({
+        success: true,
+        user,
+      });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
     }

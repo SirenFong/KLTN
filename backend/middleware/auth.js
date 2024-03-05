@@ -2,6 +2,7 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const catchAsyncErrors = require("./catchAsyncErrors");
 const jwt = require("jsonwebtoken");
 const User = require("../model/user");
+const Employee = require("../model/employee");
 // const Shop = require("../model/shop");
 
 exports.isAuthenticated = catchAsyncErrors(async (req, res, next) => {
@@ -21,18 +22,18 @@ exports.isAuthenticated = catchAsyncErrors(async (req, res, next) => {
 {
   /**Tạm đóng */
 }
-// exports.isSeller = catchAsyncErrors(async (req, res, next) => {
-//   const { seller_token } = req.cookies;
-//   if (!seller_token) {
-//     return next(new ErrorHandler("Vui lòng đăng nhập để sử dụng", 401));
-//   }
+exports.isDoctor = catchAsyncErrors(async (req, res, next) => {
+  const { doctor_token } = req.cookies;
+  if (!doctor_token) {
+    return next(new ErrorHandler("Vui lòng đăng nhập để sử dụng", 401));
+  }
 
-//   const decoded = jwt.verify(seller_token, process.env.JWT_SECRET_KEY);
+  const decoded = jwt.verify(doctor_token, process.env.JWT_SECRET_KEY);
 
-//   req.seller = await Shop.findById(decoded.id);
+  req.doctor = await Employee.findById(decoded.id);
 
-//   next();
-// });
+  next();
+});
 
 // exports.isAdmin = (...roles) => {
 //   return (req, res, next) => {

@@ -13,11 +13,12 @@ import {
   FAQPage,
   ProfilePage,
   DoctorCreatePage,
+  DoctorLoginPage,
   EmployeeActivationPage,
 } from "./Routes.js";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { loadUser } from "./redux/actions/user.js";
+import { loadDoctor, loadUser } from "./redux/actions/user.js";
 import Store from "./redux/store.js";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
@@ -26,6 +27,7 @@ const App = () => {
   const { loading, isAuthenticated } = useSelector((state) => state.user);
   useEffect(() => {
     Store.dispatch(loadUser());
+    Store.dispatch(loadDoctor());
   }, []);
 
   return (
@@ -50,6 +52,7 @@ const App = () => {
             <Route path="/events" element={<EventsPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/doctor-create" element={<DoctorCreatePage />} />
+            <Route path="/doctor-login" element={<DoctorLoginPage />} />
             {/**Bọc ProfilePage bên trong ProtectedRout để kiểm tra đăng nhập */}
             <Route
               path="/profile"
