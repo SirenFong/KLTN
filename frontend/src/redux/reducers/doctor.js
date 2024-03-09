@@ -12,7 +12,7 @@ export const doctorReducer = createReducer(initialState, (builder) => {
     .addCase("LoadDoctorSuccess", (state, action) => {
       state.isDoctor = true;
       state.isLoading = false;
-      state.Doctor = action.payload;
+      state.doctor = action.payload;
     })
     .addCase("LoadDoctorFail", (state, action) => {
       state.isLoading = false;

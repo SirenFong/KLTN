@@ -33,16 +33,15 @@ import DoctorProtectedRoute from "./DoctorProtectedRoute.js";
 
 const App = () => {
   const { loading, isAuthenticated } = useSelector((state) => state.user);
-  const { isLoading, isDoctor, doctor } = useSelector((state) => state.doctor);
+  const { isLoading, isDoctor } = useSelector((state) => state.doctor);
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadDoctor());
 
-    if (isDoctor === true) {
-      return <Navigate to="/doctor" replace />;
-    }
+    // if (isDoctor === true) {
+    //   return <Navigate to="/doctor" replace />;
+    // }
   }, []);
-  console.log(isDoctor, doctor);
 
   return (
     <>

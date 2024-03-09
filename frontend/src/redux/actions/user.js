@@ -31,9 +31,9 @@ export const loadDoctor = () => async (dispatch) => {
     const { data } = await axios.get(`${server}/employee/getDoctor`, {
       withCredentials: true,
     });
-    dispatch({
+    dispatch({ 
       type: "LoadDoctorSuccess",
-      payload: data.user,
+      payload: data.doctor,
     });
   } catch (error) {
     dispatch({

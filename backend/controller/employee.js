@@ -151,15 +151,15 @@ router.get(
   isDoctor,
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const user = await Employee.findById(req.doctor._id);
+      const doctor = await Employee.findById(req.doctor._id);
 
-      if (!user) {
+      if (!doctor) {
         return next(new ErrorHandler("Người dùng không tồn tại", 400));
       }
 
       res.status(200).json({
         success: true,
-        user,
+        doctor,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
