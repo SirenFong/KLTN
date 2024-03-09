@@ -42,7 +42,8 @@ const App = () => {
       return <Navigate to="/doctor" replace />;
     }
   }, []);
-  // console.log(isDoctor, doctor);
+  console.log(isDoctor, doctor);
+
   return (
     <>
       {loading || isLoading ? null : (
