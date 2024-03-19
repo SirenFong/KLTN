@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 const DoctorLoginPage = () => {
   const navigate = useNavigate();
-  const { isDoctor, doctor } = useSelector((state) => state.doctor);
+  const { isDoctor, isLoading } = useSelector((state) => state.doctor);
   useEffect(() => {
     if (isDoctor === true) {
-      navigate(`/employee/${doctor._id}`);
+      navigate(`/dashboad`);
     }
-  }, [isDoctor, doctor, navigate]);
+  }, [isDoctor, isLoading]);
   return (
     <div>
       <DoctorLogin />

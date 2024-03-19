@@ -5,9 +5,10 @@ import styles from "../../styles/styles";
 import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const DoctorLogin = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
@@ -26,6 +27,7 @@ const DoctorLogin = () => {
       )
       .then((res) => {
         toast.success("Đăng nhập thành công!");
+        navigate("/dashboard");
         window.location.reload(true);
       })
       .catch((err) => {
