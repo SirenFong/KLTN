@@ -16,6 +16,7 @@ import { MdTrackChanges } from "react-icons/md";
 const ProfileContent = ({ active }) => {
   //Tạo biến user để lấy thông tin người dùng khi đăng ký
   const { user } = useSelector((state) => state.user);
+  const [role, setRole] = useState(user && user.role);
   const [name, setName] = useState(user && user.name);
   const [email, setEmail] = useState(user && user.email);
   //Bắt đầu với underfind
@@ -43,6 +44,9 @@ const ProfileContent = ({ active }) => {
               />
               <div className="w-[30px] h-[30px] bg-[#E3E9EE] rounded-full flex items-center justify-center cursor-pointer absolute bottom-[5px] right-[5px]">
                 <AiOutlineCamera />
+              </div>
+              <div className="absolute bottom-[-30px] left-0 right-0 text-center text-[#000000]">
+                <span className="bg-white px-2 py-1 rounded-md">{`Vai trò: ${user.role}`}</span>
               </div>
             </div>
           </div>
