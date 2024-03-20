@@ -32,11 +32,12 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     default: "doctor",
   },
-  avatar: {
-    public_id: {
-      type: String,
-    },
-  },
+  avatar: String,
+  // avatar: {
+  //   public_id: {
+  //     type: String,
+  //   },
+  // },
   //     required: true,
   //   },
   //   url: {

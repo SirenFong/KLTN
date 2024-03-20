@@ -129,7 +129,7 @@ const Header = ({ activeHeading }) => {
           </div>
 
           <div className={`${styles.button}`}>
-            <Link to="/doctor-login">
+            <Link to="/dashboard">
               <h1 className="text-[#fff] flex items-center">
                 Kênh người bán <IoIosArrowForward className="ml-1" />
               </h1>

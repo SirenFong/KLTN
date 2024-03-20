@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import DoctorCreate from "../components/Shop/DoctorCreate";
+import DoctorCreate from "../components/Employee/DoctorCreate";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 

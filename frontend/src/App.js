@@ -1,12 +1,6 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useNavigate,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   LoginPage,
   SignupPage,
@@ -21,7 +15,8 @@ import {
   DoctorCreatePage,
   DoctorLoginPage,
   EmployeeActivationPage,
-} from "./Routes.js";
+} from "./routes/Routes.js";
+import { DoctorDashboardPage } from "./routes/DoctorRoutes.js";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loadDoctor, loadUser } from "./redux/actions/user.js";
@@ -40,30 +35,49 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        {/**  */}
         <Route path="/login" element={<LoginPage />} />
+        {/**  */}
         <Route path="/sign-up" element={<SignupPage />} />
+        {/**  */}
         <Route
           path="/activation/:activation_token"
           element={<ActivationPage />}
         />
+        {/**  */}
         <Route
           path="/doctor/activation/:activation_token"
           element={<EmployeeActivationPage />}
         />
         <Route path="/products" element={<ProductsPage />} />
+        {/**  */}
         <Route path="/product/:name" element={<ProductDetailPage />} />
+        {/**  */}
         <Route path="/best-selling" element={<BestSellingPage />} />
+        {/**  */}
         <Route path="/events" element={<EventsPage />} />
+        {/**  */}
         <Route path="/faq" element={<FAQPage />} />
 
         {/** Shop */}
         <Route path="/doctor-create" element={<DoctorCreatePage />} />
+        {/**  */}
         <Route path="/doctor-login" element={<DoctorLoginPage />} />
+        {/**  */}
         <Route
           path="/employee/:id"
           element={
             <DoctorProtectedRoute>
               <DoctorHomePage />
+            </DoctorProtectedRoute>
+          }
+        />
+        {/** Dashboard */}
+        <Route
+          path="/dashboard"
+          element={
+            <DoctorProtectedRoute>
+              <DoctorDashboardPage />
             </DoctorProtectedRoute>
           }
         />
@@ -77,6 +91,7 @@ const App = () => {
           }
         />
       </Routes>
+      {/** Thông báo */}
       <ToastContainer
         position="top-right"
         autoClose={2900}
