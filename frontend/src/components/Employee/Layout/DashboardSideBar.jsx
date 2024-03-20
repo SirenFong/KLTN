@@ -45,7 +45,7 @@ const DashboardSideBar = ({ active }) => {
             color={`${active === 1 ? "#4aa5b4" : "#555"}`}
           />
           <h5
-            className={`pl-2 text-[18px] font-[400] ${
+            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
               active === 1 ? "text-[#4aa5b4]" : "text-[#555]"
             }`}
           >
@@ -62,7 +62,7 @@ const DashboardSideBar = ({ active }) => {
             color={`${active === 2 ? "#4aa5b4" : "#555"}`}
           />
           <h5
-            className={`pl-2 text-[18px] font-[400] ${
+            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
               active === 2 ? "text-[#4aa5b4]" : "text-[#555]"
             }`}
           >
@@ -76,7 +76,7 @@ const DashboardSideBar = ({ active }) => {
         <Link to="/dashboard-products" className="w-full flex items-center">
           <FiPackage size={30} color={`${active === 3 ? "#4aa5b4" : "#555"}`} />
           <h5
-            className={`pl-2 text-[18px] font-[400] ${
+            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
               active === 3 ? "text-[#4aa5b4]" : "text-[#555]"
             }`}
           >
@@ -96,7 +96,7 @@ const DashboardSideBar = ({ active }) => {
             color={`${active === 4 ? "#4aa5b4" : "#555"}`}
           />
           <h5
-            className={`pl-2 text-[18px] font-[400] ${
+            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
               active === 4 ? "text-[#4aa5b4]" : "text-[#555]"
             }`}
           >
@@ -113,7 +113,7 @@ const DashboardSideBar = ({ active }) => {
             color={`${active === 5 ? "#4aa5b4" : "#555"}`}
           />
           <h5
-            className={`pl-2 text-[18px] font-[400] ${
+            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
               active === 5 ? "text-[#4aa5b4]" : "text-[#555]"
             }`}
           >
@@ -130,7 +130,7 @@ const DashboardSideBar = ({ active }) => {
             color={`${active === 6 ? "#4aa5b4" : "#555"}`}
           />
           <h5
-            className={`pl-2 text-[18px] font-[400] ${
+            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
               active === 6 ? "text-[#4aa5b4]" : "text-[#555]"
             }`}
           >
@@ -147,7 +147,7 @@ const DashboardSideBar = ({ active }) => {
             color={`${active === 7 ? "#4aa5b4" : "#555"}`}
           />
           <h5
-            className={`pl-2 text-[18px] font-[400] ${
+            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
               active === 7 ? "text-[#4aa5b4]" : "text-[#555]"
             }`}
           >
@@ -164,7 +164,7 @@ const DashboardSideBar = ({ active }) => {
             color={`${active === 8 ? "#4aa5b4" : "#555"}`}
           />
           <h5
-            className={`pl-2 text-[18px] font-[400] ${
+            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
               active === 8 ? "text-[#4aa5b4]" : "text-[#555]"
             }`}
           >
@@ -181,7 +181,7 @@ const DashboardSideBar = ({ active }) => {
             color={`${active === 9 ? "#4aa5b4" : "#555"}`}
           />
           <h5
-            className={`pl-2 text-[18px] font-[400] ${
+            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
               active === 9 ? "text-[#4aa5b4]" : "text-[#555]"
             }`}
           >
@@ -198,7 +198,7 @@ const DashboardSideBar = ({ active }) => {
             color={`${active === 10 ? "#4aa5b4" : "#555"}`}
           />
           <h5
-            className={`pl-2 text-[18px] font-[400] ${
+            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
               active === 10 ? "text-[#4aa5b4]" : "text-[#555]"
             }`}
           >
@@ -215,7 +215,7 @@ const DashboardSideBar = ({ active }) => {
             color={`${active === 11 ? "#4aa5b4" : "#555"}`}
           />
           <h5
-            className={`pl-2 text-[18px] font-[400] ${
+            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
               active === 11 ? "text-[#4aa5b4]" : "text-[#555]"
             }`}
           >
@@ -232,7 +232,7 @@ const DashboardSideBar = ({ active }) => {
             color={`${active === 12 ? "#4aa5b4" : "#555"}`}
           />
           <h5
-            className={`pl-2 text-[18px] font-[400] ${
+            className={`hidden 800px:block pl-2 text-[18px] font-[400] ${
               active === 12 ? "text-[#4aa5b4]" : "text-[#555]"
             }`}
           >
