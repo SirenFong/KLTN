@@ -1,3 +1,3 @@
 import DoctorDashboardPage from "../pages/Employee/DoctorDashboardPage";
-
-export { DoctorDashboardPage };
+import DoctorCreateProduct from "../pages/Employee/DoctorCreateProduct";
+export { DoctorDashboardPage, DoctorCreateProduct };
