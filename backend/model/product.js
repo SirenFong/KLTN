@@ -3,17 +3,33 @@ const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Please enter your product name!"],
+    required: [true, "Vui lòng nhập tên sản phẩm!"],
   },
   description: {
     type: String,
-    required: [true, "Please enter your product description!"],
+    required: [true, "Vui lòng nhập mô tả sản phẩm"],
   },
   category: {
     type: String,
-    required: [true, "Please enter your product category!"],
+    required: [true, "Vui lòng chọn danh mục sản phẩm"],
+  },
+  origin: {
+    type: String,
+    required: [true, "Vui lòng chọn xuất xứ"],
+  },
+  entryDate: {
+    type: Date,
+  },
+  expiryDate: {
+    type: Date,
   },
   tags: {
+    type: String,
+  },
+  quantity: {
+    type: String,
+  },
+  brand: {
     type: String,
   },
   originalPrice: {
@@ -62,11 +78,11 @@ const productSchema = new mongoose.Schema({
   ratings: {
     type: Number,
   },
-  shopId: {
+  employeeId: {
     type: String,
     required: true,
   },
-  shop: {
+  employee: {
     type: Object,
     required: true,
   },
