@@ -16,7 +16,11 @@ import {
   DoctorLoginPage,
   EmployeeActivationPage,
 } from "./routes/Routes.js";
-import { DoctorDashboardPage,DoctorCreateProduct } from "./routes/DoctorRoutes.js";
+import {
+  DoctorDashboardPage,
+  DoctorCreateProduct,
+  DoctorAllProduct,
+} from "./routes/DoctorRoutes.js";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loadDoctor, loadUser } from "./redux/actions/user.js";
@@ -81,12 +85,21 @@ const App = () => {
             </DoctorProtectedRoute>
           }
         />
-        {/** Dashboard */}
+        {/** Dashboard create */}
         <Route
           path="/dashboard-create-product"
           element={
             <DoctorProtectedRoute>
               <DoctorCreateProduct />
+            </DoctorProtectedRoute>
+          }
+        />
+        {/** Dashboard get all */}
+        <Route
+          path="/dashboard-products"
+          element={
+            <DoctorProtectedRoute>
+              <DoctorAllProduct />
             </DoctorProtectedRoute>
           }
         />

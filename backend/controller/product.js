@@ -18,7 +18,7 @@ router.post(
         return next(new ErrorHandler("Mã nhân viên không tồn tại", 400));
       } else {
         const files = req.files;
-        const imageUrls = files.map((file) => `${file.fileName}`);
+        const imageUrls = files.map((file) => `${file.filename}`);
         const productData = req.body;
         productData.images = imageUrls;
         productData.employee = employee;
@@ -29,6 +29,23 @@ router.post(
           product,
         });
       }
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+//Tải danh sách sản phẩm cửa hàng
+router.get(
+  "/get-all-products-employee/:id",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const products = await Product.find({ employeeId: req.params.id });
+
+      res.status(201).json({
+        success: true,
+        products,
+      });
     } catch (error) {
       return next(new ErrorHandler(error, 400));
     }
