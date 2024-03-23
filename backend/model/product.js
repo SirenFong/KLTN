@@ -32,29 +32,47 @@ const productSchema = new mongoose.Schema({
   brand: {
     type: String,
   },
+  specifications: {
+    type: String,
+    required: function() {
+      return this.category !== "Thiết bị y tế";
+    },
+  },
+  unit: {
+    type: String,
+    required: function() {
+      return this.category !== "Thiết bị y tế";
+    },
+  },
+  ingredient: {
+    type: String,
+  },
+  weight: {
+    type: String,
+  },
+  material: {
+    type: String,
+  },
+  guarantee: {
+    type: String,
+  },
   originalPrice: {
     type: Number,
+    required: [true, "Vui lòng nhập giá nhập vào!"],
   },
-  discountPrice: {
+  vat: {
     type: Number,
-    required: [true, "Please enter your product price!"],
+  },
+  sellPrice: {
+    type: Number,
   },
   stock: {
     type: Number,
     required: [true, "Please enter your product stock!"],
   },
-  images: [
-    {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+  images: {
+    type: [String],
+  },
   reviews: [
     {
       user: {

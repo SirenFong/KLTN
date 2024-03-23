@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { createProduct } from "../../redux/actions/product";
 import { categoriesData } from "../../static/data";
 import { AiOutlineCloseCircle, AiOutlinePlusCircle } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 const CreateProduct = () => {
   const { doctor } = useSelector((state) => state.doctor);
-  const navigate = useState();
+  const { success, error } = useSelector((state) => state.products);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const [images, setImages] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -30,6 +35,17 @@ const CreateProduct = () => {
   const [fileKey, setFileKey] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("");
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+    if (success) {
+      toast.success("Product created successfully!");
+      navigate("/dashboard");
+      window.location.reload();
+    }
+  }, [dispatch, error, success]);
+
   // Tính toán giá bán dựa trên giá nhập và % thuế
   const calculateSellPrice = () => {
     const vatDecimal = parseFloat(vat) / 100;
@@ -46,6 +62,7 @@ const CreateProduct = () => {
     }).format(price);
   };
 
+  //
   const handleImageChange = (e) => {
     e.preventDefault();
 
@@ -54,14 +71,42 @@ const CreateProduct = () => {
     setFileKey((prevKey) => prevKey + 1);
   };
 
+  //
   const removeImage = (index) => {
     const newImages = [...images];
     newImages.splice(index, 1);
     setImages(newImages);
   };
 
+  //
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const newForm = new FormData();
+
+    images.forEach((image) => {
+      newForm.append("images", image);
+    });
+    newForm.append("name", name);
+    newForm.append("description", description);
+    newForm.append("category", category);
+    newForm.append("origin", origin);
+    newForm.append("entryDate", entryDate);
+    newForm.append("expiryDate", expiryDate);
+    newForm.append("quantity", quantity);
+    newForm.append("brand", brand);
+    newForm.append("specifications", specifications);
+    newForm.append("unit", unit);
+    newForm.append("ingredient", ingredient);
+    newForm.append("weight", weight);
+    newForm.append("material", material);
+    newForm.append("guarantee", guarantee);
+    newForm.append("originalPrice", originalPrice);
+    newForm.append("vat", vat);
+    newForm.append("sellPrice", sellPrice);
+    newForm.append("stock", stock);
+    newForm.append("employeeId", doctor._id);
+    dispatch(createProduct(newForm));
   };
 
   const handleCategoryChange = (e) => {
@@ -113,14 +158,17 @@ const CreateProduct = () => {
               <label className="pb-2">
                 Mô tả sản phẩm <span className="text-red-500">*</span>
               </label>
-              <input
+              <textarea
+                cols="30"
+                required
+                rows="8"
                 type="text"
                 name="description"
                 value={description}
-                className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Nhập mô tả sản phẩm..."
-              />
+              ></textarea>
             </div>
             <br />
             <div>
@@ -221,14 +269,17 @@ const CreateProduct = () => {
               <label className="pb-2">
                 Mô tả sản phẩm <span className="text-red-500">*</span>
               </label>
-              <input
+              <textarea
+                cols="30"
+                required
+                rows="8"
                 type="text"
                 name="description"
                 value={description}
-                className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Nhập mô tả sản phẩm..."
-              />
+              ></textarea>
             </div>
             <div>
               <label className="pb-2">
