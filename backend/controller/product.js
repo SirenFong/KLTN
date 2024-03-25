@@ -1,5 +1,6 @@
 const express = require("express");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const { isDoctor } = require("../middleware/auth");
 const router = express.Router();
 const Product = require("../model/product");
 const Employee = require("../model/employee");
@@ -29,6 +30,30 @@ router.post(
           product,
         });
       }
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+//Xóa sản phẩm
+router.delete(
+  "/delete-employee-product/:id",
+  isDoctor,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const productId = req.params.id;
+
+      const product = await Product.findByIdAndDelete(productId);
+
+      if (!product) {
+        return next(new ErrorHandler("Không tìm thấy sản phẩm để xóa!!!", 500));
+      }
+
+      res.status(201).json({
+        success: true,
+        message: "Xóa thành công!!",
+      });
     } catch (error) {
       return next(new ErrorHandler(error, 400));
     }

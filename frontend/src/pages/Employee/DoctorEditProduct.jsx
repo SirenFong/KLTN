@@ -1,22 +1,22 @@
 import React from "react";
 import DashboardHeader from "../../components/Employee/Layout/DashboardHeader";
 import DashboardSideBar from "../../components/Employee/Layout/DashboardSideBar";
-import AllProduct from "../../components/Employee/AllProduct";
+import EditProduct from "../../components/Employee/EditProduct";
 
-const DoctorAllProduct = () => {
+const DoctorEditProduct = () => {
   return (
     <div>
       <DashboardHeader />
-      <div className="flex justify-between w-full">
+      <div className="flex items-center justify-between w-full">
         <div className="w-[80px] 800px:w-[330px]">
-          <DashboardSideBar active={3} />
+          <DashboardSideBar active={4} />
         </div>
         <div className="w-full justify-center flex">
-          <AllProduct />
+          <EditProduct />
         </div>
       </div>
     </div>
   );
 };
 
-export default DoctorAllProduct;
+export default DoctorEditProduct;

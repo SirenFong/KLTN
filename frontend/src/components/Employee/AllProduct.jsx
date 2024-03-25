@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteProduct,
-  getAllProductsEmployee,
-} from "../../redux/actions/product";
+import { getAllProductsEmployee } from "../../redux/actions/product";
+import { deleteProduct } from "../../redux/actions/product";
 import Loader from "../Layout/Loader";
 import { DataGrid } from "@material-ui/data-grid";
 import { Link } from "react-router-dom";
@@ -13,6 +11,7 @@ import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
 const AllProduct = () => {
   const { products, isLoading } = useSelector((state) => state.products);
   const { doctor } = useSelector((state) => state.doctor);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,6 +19,7 @@ const AllProduct = () => {
   }, [dispatch]);
 
   const handleDelete = (id) => {
+    // console.log(id);
     dispatch(deleteProduct(id));
     window.location.reload();
   };
@@ -37,13 +37,23 @@ const AllProduct = () => {
       headerName: "Giá bán",
       minWidth: 100,
       flex: 0.6,
+      renderCell: (params) => {
+        return (
+          <>
+            {parseInt(params.value).toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </>
+        );
+      },
     },
     {
       field: "Stock",
       headerName: "Tồn kho",
       type: "number",
       minWidth: 100,
-      flex: 0.8,
+      flex: 0.9,
     },
 
     {
@@ -96,9 +106,10 @@ const AllProduct = () => {
   products &&
     products.forEach((item, index) => {
       row.push({
-        id: index + 1,
+        // id: index + 1,
+        id: item._id,
         name: item.name,
-        price: item.sellPrice + "đ ",
+        price: parseInt(item.sellPrice),
         Stock: item.stock,
         sold: item?.sold_out,
       });

@@ -40,7 +40,7 @@ const CreateProduct = () => {
       toast.error(error);
     }
     if (success) {
-      toast.success("Product created successfully!");
+      toast.success("Thành công!");
       navigate("/dashboard");
       window.location.reload();
     }
