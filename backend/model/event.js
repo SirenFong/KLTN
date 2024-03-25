@@ -3,27 +3,27 @@ const mongoose = require("mongoose");
 const eventSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Please enter your event product name!"],
+    required: [true, "Vui lòng nhập tên sản phẩm!"],
   },
   description: {
     type: String,
-    required: [true, "Please enter your event product description!"],
+    required: [true, "Vui lòng nhập mô tả!"],
   },
   category: {
     type: String,
-    required: [true, "Please enter your event product category!"],
+    required: [true, "Chọn danh mục chạy sự kiện!"],
   },
   start_Date: {
     type: Date,
     required: true,
   },
-  Finish_Date: {
+  end_Date: {
     type: Date,
     required: true,
   },
   status: {
     type: String,
-    default: "Running",
+    default: "Đang hoạt động",
   },
   tags: {
     type: String,
@@ -33,24 +33,15 @@ const eventSchema = new mongoose.Schema({
   },
   discountPrice: {
     type: Number,
-    required: [true, "Please enter your event product price!"],
+    required: [true, "Giá giảm!"],
   },
   stock: {
     type: Number,
-    required: [true, "Please enter your event product stock!"],
+    required: [true, "Số lượng tồn!"],
   },
-  images: [
-    {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+  images: {
+    type: String,
+  },
   shopId: {
     type: String,
     required: true,

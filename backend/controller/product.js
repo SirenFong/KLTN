@@ -16,7 +16,7 @@ router.post(
       const employeeId = req.body.employeeId;
       const employee = await Employee.findById(employeeId);
       if (!employee) {
-        return next(new ErrorHandler("Mã nhân viên không tồn tại", 400));
+        return next(new ErrorHandler("Mã sản phẩm không tồn tại", 400));
       } else {
         const files = req.files;
         const imageUrls = files.map((file) => `${file.filename}`);
