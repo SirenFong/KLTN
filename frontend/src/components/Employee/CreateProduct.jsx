@@ -41,8 +41,8 @@ const CreateProduct = () => {
     }
     if (success) {
       toast.success("Thành công!");
-      navigate("/dashboard");
-      window.location.reload();
+      navigate("/dashboard-products");
+      // window.location.reload();
     }
   }, [dispatch, error, success]);
 

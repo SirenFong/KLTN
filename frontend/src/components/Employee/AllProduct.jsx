@@ -25,7 +25,8 @@ const AllProduct = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "Id", minWidth: 150, flex: 0.7 },
+    // { field: "id", headerName: "Id", minWidth: 150, flex: 0.7 },
+
     {
       field: "name",
       headerName: "Tên sản phẩm",
@@ -83,7 +84,7 @@ const AllProduct = () => {
       },
     },
     {
-      field: "Xóa",
+      field: "Xóa Sản Phẩm",
       flex: 0.8,
       minWidth: 120,
       headerName: "",
@@ -112,6 +113,7 @@ const AllProduct = () => {
         price: parseInt(item.sellPrice),
         Stock: item.stock,
         sold: item?.sold_out,
+        productId: item._id,
       });
     });
 

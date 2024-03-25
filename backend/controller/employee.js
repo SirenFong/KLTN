@@ -167,4 +167,24 @@ router.get(
   })
 );
 
+//Đăng xuất
+//Xóa cookie sẽ đăng xuất tài khoản
+router.get(
+  "/logout",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      res.cookie("doctor_token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+      });
+      res.status(201).json({
+        succes: true,
+        message: "Đăng xuất thành công",
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
 module.exports = router;

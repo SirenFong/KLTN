@@ -1,12 +1,19 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { backend_url } from "../../server";
+import { backend_url, server } from "../../server";
 import styles from "../../styles/styles";
+import axios from "axios";
 
 const EmployeeInfo = ({ isOwner }) => {
   const { doctor } = useSelector((state) => state.doctor);
-  const logoutHandler = () => {};
-  return ( 
+
+  const logoutHandler = async () => {
+    axios.get(`${server}/employee/logout`, {
+      withCredentials: true,
+    });
+    window.location.reload();
+  };
+  return (
     <div>
       <div className="w-full py-5">
         <div className="w-full flex item-center justify-center">
