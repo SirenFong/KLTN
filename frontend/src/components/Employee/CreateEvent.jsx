@@ -1,39 +1,76 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createProduct } from "../../redux/actions/product";
 import { categoriesData } from "../../static/data";
 import { AiOutlineCloseCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { toast } from "react-toastify";
+import { createEvent } from "../../redux/actions/event";
 
-const CreateProduct = () => {
+const CreateEvent = () => {
   const { doctor } = useSelector((state) => state.doctor);
-  const { success, error } = useSelector((state) => state.products);
+  const { success, error } = useSelector((state) => state.events);
+  //
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  //
   const [images, setImages] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  //
   const [originalPrice, setOriginalPrice] = useState("");
+  const [discountPercent, setDiscountPercent] = useState("");
   const [sellPrice, setSellPrice] = useState("");
-  const [vat, setVat] = useState("5");
+  //
   const [stock, setStock] = useState("");
-  const [origin, setOrigin] = useState("");
   const [tags, setTags] = useState("");
-  const [entryDate, setEntryDate] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
+  //Event Date
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  //
   const [specifications, setSpecifications] = useState("");
-  const [ingredient, setIngredient] = useState("");
   const [unit, setUnit] = useState("");
-  const [brand, setBrand] = useState("");
   const [quantity, setQuantity] = useState("");
   const [weight, setWeight] = useState("");
   const [material, setMaterial] = useState("");
-  const [guarantee, setGuarantee] = useState("");
   const [fileKey, setFileKey] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("");
+
+  //
+  const handleStartDateChange = (e) => {
+    const startDate = new Date(e.target.value);
+    const minEndDate = new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000);
+    setStartDate(startDate);
+    setEndDate(null);
+    document.getElementById("end-date").min = minEndDate
+      .toISOString()
+      .slice(0, 10);
+  };
+
+  const handleEndDateChange = (e) => {
+    const endDate = new Date(e.target.value);
+    setEndDate(endDate);
+  };
+
+  const today = new Date().toISOString().slice(0, 10);
+
+  const minEndDate = startDate
+    ? new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .slice(0, 10)
+    : "";
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+    if (success) {
+      toast.success("Sự kiện được tạo thành công!");
+      navigate("/dashboard-events");
+      window.location.reload();
+    }
+  }, [dispatch, error, navigate, success]);
+  //
 
   useEffect(() => {
     if (error) {
@@ -42,16 +79,40 @@ const CreateProduct = () => {
     if (success) {
       toast.success("Thành công!");
       navigate("/dashboard-products");
-      window.location.reload();
+      // window.location.reload();
     }
-  }, [dispatch, error, success]);
+  }, [dispatch, error, navigate, success]);
 
-  // Tính toán giá bán dựa trên giá nhập và % thuế
   const calculateSellPrice = () => {
-    const vatDecimal = parseFloat(vat) / 100;
+    // Chuyển đổi giá nhập và % giảm giá sang kiểu số
     const originalPriceFloat = parseFloat(originalPrice);
-    const sellPriceValue = originalPriceFloat + originalPriceFloat * vatDecimal;
-    setSellPrice(sellPriceValue.toFixed(2)); // Giữ 2 chữ số sau dấu phẩy
+    const discountPercentFloat = parseFloat(discountPercent);
+
+    // Kiểm tra xem giá nhập và % giảm giá có hợp lệ không
+    if (!isNaN(originalPriceFloat) && !isNaN(discountPercentFloat)) {
+      // Tính toán giá sau khi giảm
+      const discountedPrice =
+        originalPriceFloat - (originalPriceFloat * discountPercentFloat) / 100;
+      // Cập nhật state của giá sau khi giảm
+      setSellPrice(discountedPrice.toFixed(2)); // Giữ 2 chữ số sau dấu phẩy
+    } else {
+      // Nếu giá nhập hoặc % giảm giá không hợp lệ, đặt giá sau khi giảm là rỗng
+      setSellPrice("");
+    }
+  };
+
+  // Thay đổi giá nhập
+  const handleOriginalPriceChange = (e) => {
+    const price = e.target.value;
+    setOriginalPrice(price);
+    calculateSellPrice();
+  };
+
+  // Thay đổi % giảm giá
+  const handleDiscountPercentChange = (e) => {
+    const percent = e.target.value;
+    setDiscountPercent(percent);
+    calculateSellPrice();
   };
 
   // Thêm hàm định dạng tiền tệ của Việt Nam
@@ -71,7 +132,7 @@ const CreateProduct = () => {
     setFileKey((prevKey) => prevKey + 1);
   };
 
-  //
+  //Xóa hình ảnh theo index
   const removeImage = (index) => {
     const newImages = [...images];
     newImages.splice(index, 1);
@@ -91,22 +152,19 @@ const CreateProduct = () => {
     newForm.append("description", description);
     newForm.append("category", category);
     newForm.append("origin", origin);
-    newForm.append("entryDate", entryDate);
-    newForm.append("expiryDate", expiryDate);
+    newForm.append("start_Date", startDate.toISOString());
+    newForm.append("end_Date", endDate.toISOString());
     newForm.append("quantity", quantity);
-    newForm.append("brand", brand);
     newForm.append("specifications", specifications);
     newForm.append("unit", unit);
-    newForm.append("ingredient", ingredient);
     newForm.append("weight", weight);
     newForm.append("material", material);
-    newForm.append("guarantee", guarantee);
     newForm.append("originalPrice", originalPrice);
-    newForm.append("vat", vat);
+    newForm.append("discountPercent", discountPercent);
     newForm.append("sellPrice", sellPrice);
     newForm.append("stock", stock);
     newForm.append("employeeId", doctor._id);
-    dispatch(createProduct(newForm));
+    dispatch(createEvent(newForm));
   };
 
   const handleCategoryChange = (e) => {
@@ -117,7 +175,7 @@ const CreateProduct = () => {
 
   return (
     <div className="w-[100%] 800px:w-[90%] bg-white shadow h-[80vh] rounded-[4px] p-3 overflow-y-scroll">
-      <h5 className="text-[30px] font-Poppins text-center">Tạo sản phẩm</h5>
+      <h5 className="text-[30px] font-Poppins text-center">Tạo sự kiện</h5>
       <form onSubmit={handleSubmit}>
         <br />
         <div>
@@ -171,24 +229,34 @@ const CreateProduct = () => {
               ></textarea>
             </div>
             <br />
+            <label className="pb-2">
+              Ngày bắt đầu sự kiện <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="date"
+              name="start_date"
+              id="start-date"
+              value={startDate ? startDate.toISOString().slice(0, 10) : ""}
+              className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              onChange={handleStartDateChange}
+              min={today}
+              placeholder="Nhập ngày "
+            />
+            <br />
             <div>
               <label className="pb-2">
-                Xuất xứ <span className="text-red-500">*</span>
+                Ngày kết thúc sự kiện <span className="text-red-500">*</span>
               </label>
-              <select
-                className="w-full mt-2 border h-[35px] rounded-[5px]"
-                value={origin}
-                onChange={(e) => setOrigin(e.target.value)}
-              >
-                <option value="">Chọn xuất xứ</option>
-                <option value="Vietnam">Vietnam</option>
-                <option value="China">Trung Quốc</option>
-                <option value="USA">Mỹ</option>
-                <option value="DanMach">Đan mạch</option>
-                <option value="Bi">Bỉ</option>
-                <option value="Phap">Pháp</option>
-                <option value="Anh">Anh</option>
-              </select>
+              <input
+                type="date"
+                name="end_date"
+                id="end-date"
+                value={endDate ? endDate.toISOString().slice(0, 10) : ""}
+                className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                onChange={handleEndDateChange}
+                min={minEndDate}
+                placeholder="Enter your event product stock..."
+              />
             </div>
             <br />
             <div>
@@ -231,22 +299,6 @@ const CreateProduct = () => {
                 onChange={(e) => setMaterial(e.target.value)}
                 placeholder="Vật liệu"
               />
-            </div>
-            <br />
-            <div>
-              <label className="pb-2">
-                Bảo hành{" "}
-                <span className="text-red-500">*Mặc định là 12 tháng</span>
-              </label>
-              <select
-                className="w-full mt-2 border h-[35px] rounded-[5px]"
-                value={guarantee}
-                onChange={(e) => setGuarantee(e.target.value)}
-              >
-                <option value="">Chọn trạng thái bảo hành</option>
-                <option value="Có">Có</option>
-                <option value="Không">Không</option>
-              </select>
             </div>
           </>
         ) : (
@@ -295,29 +347,33 @@ const CreateProduct = () => {
               />
             </div>
             <br />
-            <div>
-              <label className="pb-2">
-                Ngày nhập <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="date"
-                name="importDate"
-                value={entryDate}
-                onChange={(e) => setEntryDate(e.target.value)}
-                className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-            </div>
+            <label className="pb-2">
+              Ngày bắt đầu sự kiện <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="date"
+              name="start_date"
+              id="start-date"
+              value={startDate ? startDate.toISOString().slice(0, 10) : ""}
+              className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              onChange={handleStartDateChange}
+              min={today}
+              placeholder="Nhập ngày "
+            />
             <br />
             <div>
               <label className="pb-2">
-                Ngày hết hạn <span className="text-red-500">*</span>
+                Ngày kết thúc sự kiện <span className="text-red-500">*</span>
               </label>
               <input
                 type="date"
-                name="expiryDate"
-                value={expiryDate}
-                onChange={(e) => setExpiryDate(e.target.value)}
+                name="end_date"
+                id="end-date"
+                value={endDate ? endDate.toISOString().slice(0, 10) : ""}
                 className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                onChange={handleEndDateChange}
+                min={minEndDate}
+                placeholder="Enter your event product stock..."
               />
             </div>
             <br />
@@ -334,20 +390,7 @@ const CreateProduct = () => {
                 placeholder="Quy cách đóng gói"
               />
             </div>
-            <br />
-            <div>
-              <label className="pb-2">
-                Thành phần <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="ingredient"
-                value={ingredient}
-                className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                onChange={(e) => setIngredient(e.target.value)}
-                placeholder="Thành phần"
-              />
-            </div>
+
             <br />
             <div>
               <label className="pb-2">
@@ -362,40 +405,7 @@ const CreateProduct = () => {
                 placeholder="Đơn vị tính"
               />
             </div>
-            <br />
-            <div>
-              <label className="pb-2">
-                Thương hiệu <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="brand"
-                value={brand}
-                className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                onChange={(e) => setBrand(e.target.value)}
-                placeholder="Thương hiệu"
-              />
-            </div>
-            <br />
-            <div>
-              <label className="pb-2">
-                Xuất xứ <span className="text-red-500">*</span>
-              </label>
-              <select
-                className="w-full mt-2 border h-[35px] rounded-[5px]"
-                value={origin}
-                onChange={(e) => setOrigin(e.target.value)}
-              >
-                <option value="">Chọn xuất xứ</option>
-                <option value="Vietnam">Vietnam</option>
-                <option value="China">Trung Quốc</option>
-                <option value="USA">Mỹ</option>
-                <option value="DanMach">Đan mạch</option>
-                <option value="Bi">Bỉ</option>
-                <option value="Phap">Pháp</option>
-                <option value="Anh">Anh</option>
-              </select>
-            </div>
+
             <br />
             <div>
               <label className="pb-2">
@@ -422,35 +432,26 @@ const CreateProduct = () => {
             name="originalPrice"
             value={originalPrice}
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            onChange={(e) => {
-              setOriginalPrice(e.target.value);
-              calculateSellPrice(); // Tính toán giá bán khi giá nhập thay đổi
-            }}
+            onChange={handleOriginalPriceChange}
             placeholder="Nhập giá sản phẩm..."
           />
         </div>
         <br />
         <div>
-          <label className="pb-2">Thuế sản phẩm (%)</label>
+          <label className="pb-2">(%) giảm giá</label>
           <input
             type="text"
-            name="vat"
-            value={vat}
+            name="discountPercent"
+            value={discountPercent}
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            onChange={(e) => {
-              setVat(e.target.value);
-              calculateSellPrice(); // Tính toán giá bán khi % thuế thay đổi
-            }}
-            placeholder="Nhập % thuế sản phẩm..."
+            onChange={handleDiscountPercentChange}
+            placeholder="Nhập % giảm giá..."
           />
         </div>
         <br />
         <div>
           <label className="pb-2">
-            Giá bán{" "}
-            <span className="text-red-500">
-              (Giá bán sẽ được tự động tính bằng giá nhập * % thuế)
-            </span>
+            Giá sau khi giảm <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -511,7 +512,7 @@ const CreateProduct = () => {
           <div>
             <input
               type="submit"
-              value="Tạo sản phẩm"
+              value="Chạy sự kiện"
               className="mt-2 cursor-pointer appearance-none text-center block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             />
           </div>
@@ -521,4 +522,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default CreateEvent;

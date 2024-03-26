@@ -31,22 +31,25 @@ const eventSchema = new mongoose.Schema({
   originalPrice: {
     type: Number,
   },
-  discountPrice: {
+  discountPercent: {
     type: Number,
     required: [true, "Giá giảm!"],
+  },
+  sellPrice: {
+    type: Number,
   },
   stock: {
     type: Number,
     required: [true, "Số lượng tồn!"],
   },
   images: {
-    type: String,
+    type: [String],
   },
-  shopId: {
+  employeeId: {
     type: String,
     required: true,
   },
-  shop: {
+  employee: {
     type: Object,
     required: true,
   },
