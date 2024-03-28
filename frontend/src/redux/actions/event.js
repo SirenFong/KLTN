@@ -25,3 +25,23 @@ export const createEvent = (newForm) => async (dispatch) => {
     });
   }
 };
+
+//Load sự kiện
+export const getAllEventsEmployee = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getAlleventsEmployeeRequest",
+    });
+
+    const { data } = await axios.get(`${server}/event/get-all-events/${id}`);
+    dispatch({
+      type: "getAlleventsEmployeeSuccess",
+      payload: data.events,
+    });
+  } catch (error) {
+    dispatch({
+      type: "getAlleventsEmployeeFailed",
+      payload: error.response.data.message,
+    });
+  }
+};

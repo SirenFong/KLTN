@@ -21,6 +21,7 @@ import {
   DoctorCreateProduct,
   DoctorCreateEvent,
   DoctorAllProduct,
+  DoctorAllEvents,
 } from "./routes/DoctorRoutes.js";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -95,12 +96,21 @@ const App = () => {
             </DoctorProtectedRoute>
           }
         />
-        * Dashboard create event
+        {/**Dashboard create event */}
         <Route
           path="/dashboard-create-event"
           element={
             <DoctorProtectedRoute>
               <DoctorCreateEvent />
+            </DoctorProtectedRoute>
+          }
+        />
+        {/**Dashboard all event */}
+        <Route
+          path="/dashboard-events"
+          element={
+            <DoctorProtectedRoute>
+              <DoctorAllEvents />
             </DoctorProtectedRoute>
           }
         />

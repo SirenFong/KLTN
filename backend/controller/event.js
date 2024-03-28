@@ -5,6 +5,7 @@ const Employee = require("../model/employee");
 const Event = require("../model/event");
 const { upload } = require("../multer");
 const router = express.Router();
+const { isDoctor } = require("../middleware/auth");
 
 //Tạo sản phẩm mới
 router.post(
@@ -30,6 +31,47 @@ router.post(
           product,
         });
       }
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+//Tải danh sách sự kiện cửa hàng
+router.get(
+  "/get-all-events/:id",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const events = await Event.find({ employeeId: req.params.id });
+
+      res.status(201).json({
+        success: true,
+        events,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+//Xóa sản phẩm
+router.delete(
+  "/delete-event/:id",
+  isDoctor,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const productId = req.params.id;
+
+      const event = await Event.findByIdAndDelete(productId);
+
+      if (!event) {
+        return next(new ErrorHandler("Không tìm thấy sự kiện để xóa!!!", 500));
+      }
+
+      res.status(201).json({
+        success: true,
+        message: "Xóa thành công!!",
+      });
     } catch (error) {
       return next(new ErrorHandler(error, 400));
     }
